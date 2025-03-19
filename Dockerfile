@@ -1,4 +1,4 @@
-# Use OpenJDK 17 as base image
+# Use OpenJDK 21 as base image
 FROM openjdk:21-jdk-slim
 
 # Set the working directory
@@ -13,7 +13,10 @@ COPY src/ src/
 RUN chmod +x mvnw
 
 # Build the application
-RUN ./mvnw package -DskipTests
+RUN ./mvnw package -DskipTests && cp target/*.jar app.jar
+
+# Expose application port (optional, change if needed)
+EXPOSE 8080
 
 # Run the application
-CMD ["java", "-jar", "target/*.jar"]
+CMD ["java", "-jar", "app.jar"]
